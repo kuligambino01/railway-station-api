@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mxfile host="app.diagrams.net">
+  <diagram name="Train Station database" id="train-station">
+    <mxGraphModel page="1" pageWidth="1560" pageHeight="1280">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Station" value="Station&#10;&#10;id: bigint PK&#10;name: varchar UNIQUE&#10;latitude: float&#10;longitude: float" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="260" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Route" value="Route&#10;&#10;id: bigint PK&#10;source_id: FK Station&#10;destination_id: FK Station&#10;distance: positive int" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="460" y="40" width="260" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="TrainType" value="TrainType&#10;&#10;id: bigint PK&#10;name: varchar UNIQUE" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="40" width="280" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="Train" value="Train&#10;&#10;id: bigint PK&#10;name: varchar UNIQUE&#10;cargo_num: positive int&#10;places_in_cargo: positive int&#10;train_type_id: FK TrainType" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="340" width="280" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="Journey" value="Journey&#10;&#10;id: bigint PK&#10;route_id: FK Route&#10;train_id: FK Train&#10;departure_time: datetime&#10;arrival_time: datetime" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="840" y="340" width="280" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="Crew" value="Crew&#10;&#10;id: bigint PK&#10;first_name: varchar&#10;last_name: varchar" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="340" width="260" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="Journey_crew" value="Journey_crew&#10;&#10;id: bigint PK&#10;journey_id: FK Journey&#10;crew_id: FK Crew&#10;UNIQUE (journey_id, crew_id)" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="440" y="340" width="280" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="Ticket" value="Ticket&#10;&#10;id: bigint PK&#10;cargo: positive int&#10;seat: positive int&#10;journey_id: FK Journey&#10;order_id: FK Order&#10;UNIQUE (journey, cargo, seat)" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="840" y="720" width="280" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="Order" value="Order&#10;&#10;id: bigint PK&#10;created_at: datetime&#10;user_id: FK User" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="720" width="280" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="User" value="User&#10;&#10;Django built-in auth.User&#10;id: integer PK&#10;username: varchar UNIQUE&#10;password: hash&#10;email, first_name, last_name&#10;is_staff, is_superuser, is_active" style="rounded=1;whiteSpace=wrap;html=0;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacing=12;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="1240" y="1020" width="280" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="edge0" value="source" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=1.0;exitY=0.29411764705882354;exitPerimeter=0;entryX=0.0;entryY=0.29411764705882354;entryPerimeter=0;" edge="1" parent="1" source="Station" target="Route">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge1" value="destination" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=1.0;exitY=0.7647058823529411;exitPerimeter=0;entryX=0.0;entryY=0.7647058823529411;entryPerimeter=0;" edge="1" parent="1" source="Station" target="Route">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge2" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=1.0;exitY=0.5;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;" edge="1" parent="1" source="Route" target="Journey">
+          <mxGeometry as="geometry" relative="1">
+            <Array as="points">
+              <mxPoint x="980" y="125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="edge3" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;" edge="1" parent="1" source="TrainType" target="Train">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge4" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=0.0;exitY=0.45;exitPerimeter=0;entryX=1.0;entryY=0.45;entryPerimeter=0;" edge="1" parent="1" source="Train" target="Journey">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge5" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=0.0;exitY=0.55;exitPerimeter=0;entryX=1.0;entryY=0.6111111111111112;entryPerimeter=0;" edge="1" parent="1" source="Journey" target="Journey_crew">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge6" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=1.0;exitY=0.4;exitPerimeter=0;entryX=0.0;entryY=0.3333333333333333;entryPerimeter=0;" edge="1" parent="1" source="Crew" target="Journey_crew">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge7" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=0.5;exitY=1.0;exitPerimeter=0;entryX=0.5;entryY=0.0;entryPerimeter=0;" edge="1" parent="1" source="Journey" target="Ticket">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge8" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=0.0;exitY=0.5;exitPerimeter=0;entryX=1.0;entryY=0.36363636363636365;entryPerimeter=0;" edge="1" parent="1" source="Order" target="Ticket">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="edge9" value="1:N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=0;endArrow=ERmany;startArrow=ERone;exitX=0.5;exitY=0.0;exitPerimeter=0;entryX=0.5;entryY=1.0;entryPerimeter=0;" edge="1" parent="1" source="User" target="Order">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
