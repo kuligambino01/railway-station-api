@@ -192,22 +192,3 @@ Journey/Crew join table.
 ![Orders](docs/screenshots/orders.png)
 ![Seat availability](docs/screenshots/seats.png)
 ![Swagger](docs/screenshots/swagger.png)
-
-## Limitations
-
-- Payments and cancellations are not implemented.
-- Booked journeys cannot be edited or deleted.
-- Trains and routes already used by journeys cannot be edited.
-- Orders cannot be updated or deleted through the API.
-- Scheduling checks protect API writes on PostgreSQL. Direct ORM writes
-  and sample data loading bypass them.
-- Consecutive journeys may share an arrival/departure time. Turnaround time
-  and station continuity are not checked.
-- Seat availability is a snapshot; it does not hold a seat.
-
-Docker Compose uses `runserver` and `DEBUG=True` for local development. Public
-deployment requires a production WSGI/ASGI server, static file serving,
-`ENVIRONMENT=production`, `DEBUG=False`, private credentials, allowed hosts and
-HTTPS.
-
-[Submission PR: develop → main](https://github.com/kuligambino01/railway-station-api/pull/1)
