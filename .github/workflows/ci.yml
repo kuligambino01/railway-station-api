@@ -1,0 +1,39 @@
+name: API checks
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: train_station
+          POSTGRES_USER: train_station
+          POSTGRES_PASSWORD: test-only
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U train_station"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      ENVIRONMENT: test
+      DEBUG: 'False'
+      DB_ENGINE: postgresql
+      DB_NAME: train_station
+      DB_USER: train_station
+      DB_PASSWORD: test-only
+      DB_HOST: localhost
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Generate ephemeral test signing key
+        run: python -c "import os,secrets; open(os.environ['GITHUB_ENV'], 'a').write('SECRET_KEY=' + secrets.token_urlsafe(64) + '\n')"
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: python manage.py makemigrations --check --dry-run
+      - run: python manage.py collectstatic --noinput
+      - run: pytest -q
+      - run: python manage.py spectacular --file /tmp/schema.yml --validate --fail-on-warn
